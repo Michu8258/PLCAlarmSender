@@ -1,0 +1,105 @@
+﻿<Window x:Class="SMSHandlerUI.Views.UserManagementView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:local="clr-namespace:SMSHandlerUI.Views"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" FontSize="14"
+        Title="User management" Height="450" Width="750" ResizeMode="NoResize">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseMove">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <!-- LIST VIEW FOR DISPLAYING USERS DEFINED IN DB -->
+        <ListView x:Name="Users" Margin="10,10,10,70" ItemsSource="{Binding Path=Users, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding SelectedUser}">
+                
+            <!-- PROPERTY SETTERS -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Resources>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </ListView.Resources>
+                
+            <!-- DISPLAYING ITEMS FROM DB -->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="User name" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Content="{Binding UserName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Access level" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Content="{Binding AccessLevelString}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Auto logout" Width="90">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding LogoutEnabled}" IsEnabled="False" Background="Blue"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Logout time [min]" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Content="{Binding LogoutTime}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Lang. edit access" Width="130">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Content="{Binding LanguageEditionCode}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Modify user" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Modify" Tag="{Binding UserID}" Height="25" Width="80" VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <cal:ActionMessage MethodName="ModifyUserDefinition">
+                                                <cal:Parameter Value="{Binding UserID}"/>
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <!-- BUTTONS -->
+        <Button x:Name="DeleteSelectedUser" Content="Delete selected" HorizontalAlignment="Left" Margin="170,0,0,20" VerticalAlignment="Bottom" Width="120" Height="30"/>
+        <Button x:Name="AddNewUser" Content="Add new" HorizontalAlignment="Center" Margin="0,0,0,20" VerticalAlignment="Bottom" Width="120" Height="30"/>
+        <Button x:Name="CloseTheWindow" Content="Close" HorizontalAlignment="Right" Margin="0,0,170,20" VerticalAlignment="Bottom" Width="120" Height="30"/>
+    </Grid>
+</Window>

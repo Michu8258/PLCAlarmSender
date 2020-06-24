@@ -1,0 +1,91 @@
+﻿<Window x:Class="SMSHandlerUI.Views.DataManipulation.AlarmProfilesExportManagerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:local="clr-namespace:SMSHandlerUI.Views.DataManipulation"
+        mc:Ignorable="d" FontSize="14" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        Title="Alarm profile export manager" Height="500" Width="870" MinHeight="500" MinWidth="870">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseMove">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <!-- ALARM PROFILES LIST VIEW-->
+        <ListView Margin="10,10,10,70" x:Name="AvailableProfiles" ScrollViewer.CanContentScroll="True"
+                  SelectedItem="{Binding Path=SelectedProfile}">
+
+            <!-- SETTERS -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Resources>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </ListView.Resources>
+
+            <!-- DATA REPRESENTATION -->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Export" Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding ToExport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Created by" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       Text="{Binding CreatedBy}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Modified by" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       Text="{Binding ModifiedBy}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Profile name" Width="180">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       Text="{Binding ProfileName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Profile comment" Width="250">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       Text="{Binding ProfileComment}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>                    
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- BUTTONS -->
+        <StackPanel HorizontalAlignment="Center" Height="Auto" Margin="0,0,0,20" VerticalAlignment="Bottom" Width="Auto" Orientation="Horizontal">
+            <Button x:Name="ExportSelectedProfiles" Content="Export selected" HorizontalAlignment="Left" Margin="10,0,10,0" VerticalAlignment="Bottom"
+                    Width="120" Height="30" IsEnabled="{Binding Path=EnableExportButton, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="CloseTheWindow" Content="Close" HorizontalAlignment="Right" Margin="10,0,10,0" VerticalAlignment="Bottom" Width="120" Height="30"/>
+        </StackPanel>
+    </Grid>
+</Window>

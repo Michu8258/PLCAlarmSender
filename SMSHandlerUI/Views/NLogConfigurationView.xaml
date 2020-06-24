@@ -1,0 +1,109 @@
+﻿<Window x:Class="SMSHandlerUI.Views.NLogConfigurationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:local="clr-namespace:SMSHandlerUI.Views"
+        mc:Ignorable="d" FontSize="14" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Title="System logs parametrization" Height="450" Width="740">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseMove">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <!-- LIST VIEW WITH CONFIGS -->
+        <ListView x:Name="Configs" Margin="10,10,10,70" ItemsSource="{Binding Path=Configs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedConfig}" ScrollViewer.CanContentScroll="False">
+
+            <!-- SETTERS -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Resources>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </ListView.Resources>
+
+            <!-- DISPLAYING ITEMS FROM DB -->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Created by" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                       Content="{Binding CreatedBy}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Modified by" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                       Content="{Binding ModifiedBy}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Old files deletion" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding DeleteOldLogs, Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Days to delete" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox x:Name="DeleteDays" SelectedItem="{Binding Path=SelectedDays, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       DisplayMemberPath="DaysString" IsEnabled="True"
+                                       ItemsSource="{Binding Path=DeleteDays, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Hours to new file" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox x:Name="HoursForNewFile" SelectedItem="{Binding Path=SelectedHours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       DisplayMemberPath="TimeString" IsEnabled="True"
+                                       ItemsSource="{Binding Path=HoursForNewFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Activated" Width="70">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding ConfigActivated, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <cal:ActionMessage MethodName="ActivatedCheckBoxClick">
+                                                <cal:Parameter Value="{Binding Identity}"/>
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- BUTTONS ON THE BOTTOM OF THE WINDOW -->
+        <StackPanel HorizontalAlignment="Center" Height="Auto" Margin="0,0,0,20" VerticalAlignment="Bottom" Width="Auto" Orientation="Horizontal">
+            <Button x:Name="DeleteSelectedConfig" Content="Delete selected" HorizontalAlignment="Left" Margin="10,0,10,0" VerticalAlignment="Bottom" Width="120" Height="30"/>
+            <Button x:Name="AddNewConfigButton" Content="Add new" HorizontalAlignment="Left" Margin="10,0,10,0" VerticalAlignment="Bottom" Width="120" Height="30"/>
+            <Button x:Name="ApplyChanges" Content="Apply changes" HorizontalAlignment="Right" Margin="10,0,10,0" VerticalAlignment="Bottom" Width="120" Height="30"/>
+            <Button x:Name="CloseTheWindow" Content="Close" HorizontalAlignment="Right" Margin="10,0,10,0" VerticalAlignment="Bottom" Width="120" Height="30"/>
+        </StackPanel>
+    </Grid>
+</Window>

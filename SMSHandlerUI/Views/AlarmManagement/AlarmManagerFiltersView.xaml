@@ -1,0 +1,57 @@
+﻿<Window x:Class="SMSHandlerUI.Views.AlarmManagement.AlarmManagerFiltersView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:local="clr-namespace:SMSHandlerUI.Views.AlarmManagement"
+        mc:Ignorable="d" FontSize="14" WindowStartupLocation="CenterOwner"
+        Title="Alarm definitions list filter" Height="320" Width="480" ResizeMode="NoResize">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseMove">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <!-- Alarm tag name filter -->
+        <TextBlock Text="Alarm tag filter:" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="200" Padding="0,3,0,0"/>
+        <TextBox HorizontalAlignment="Right" Height="25" Margin="0,20,20,0" TextWrapping="NoWrap"
+                 VerticalAlignment="Top" Width="200" x:Name="AlmTagNameFilter" VerticalContentAlignment="Center"/>
+
+        <!-- Acknowledgement tag name filter -->
+        <TextBlock Text="Acknowledgement tag filter:" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="200" Padding="0,3,0,0"/>
+        <TextBox HorizontalAlignment="Right" Height="25" Margin="0,60,20,0" TextWrapping="NoWrap"
+                 VerticalAlignment="Top" Width="200" x:Name="AckTagNameFilter" VerticalContentAlignment="Center"/>
+        
+        <!-- Alarm profile name filter -->
+        <TextBlock Text="Alarm profile name filter:" HorizontalAlignment="Left" Margin="20,100,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="200" Padding="0,3,0,0"/>
+        <ComboBox HorizontalAlignment="Right" Margin="0,100,20,0" VerticalAlignment="Top" Width="200"
+            x:Name="ListOfAvailableProfilesNames" SelectedItem="{Binding SelectedProfileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <!-- SMS recipients group filter -->
+        <TextBlock Text="SMS recipients group filter:" HorizontalAlignment="Left" Margin="20,140,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="200" Padding="0,3,0,0"/>
+        <ComboBox HorizontalAlignment="Right" Margin="0,140,20,0" VerticalAlignment="Top" Width="200"
+            x:Name="ListOdAvaiableSMSgroups" SelectedItem="{Binding SelectedSMSgroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <!-- Alarm tag address filter -->
+        <TextBlock Text="Alarm tag address filter:" HorizontalAlignment="Left" Margin="20,180,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="200" Padding="0,3,0,0"/>
+        <TextBox HorizontalAlignment="Right" Height="25" Margin="0,180,20,0" TextWrapping="NoWrap"
+                 VerticalAlignment="Top" Width="200" x:Name="AlmAddressFilter" VerticalContentAlignment="Center"/>
+        
+        <!-- Buttons -->
+        <StackPanel HorizontalAlignment="Center" Height="Auto" Margin="0,0,0,20" VerticalAlignment="Bottom" Width="Auto" Orientation="Horizontal">
+            <Button x:Name="ApplyChanges" Content="Apply" HorizontalAlignment="Right" Margin="10,0,10,0" VerticalAlignment="Bottom" Width="120" Height="30"/>
+            <Button x:Name="CloseTheWindow" Content="Close" HorizontalAlignment="Right" Margin="10,0,10,0" VerticalAlignment="Bottom" Width="120" Height="30"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

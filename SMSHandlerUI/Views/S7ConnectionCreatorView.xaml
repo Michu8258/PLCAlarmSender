@@ -1,0 +1,90 @@
+﻿<Window x:Class="SMSHandlerUI.Views.S7ConnectionCreatorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:local="clr-namespace:SMSHandlerUI.Views"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" FontSize="14" ResizeMode="NoResize"
+        Title="Siemens S7 connection creator" Height="350" Width="400">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseMove">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+    <Grid>
+        <!-- CONNECTION NAME -->
+        <TextBlock Text="Connection name" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="150" Padding="0,3,0,0"/>
+        <TextBox x:Name="ConnectionName" HorizontalAlignment="Right" Height="25" Margin="0,20,20,0" TextWrapping="NoWrap"
+            VerticalAlignment="Top" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+            IsEnabled="{Binding AddingNew, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- CPU TYPE-->
+        <TextBlock Text="CPU type" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="150" Padding="0,3,0,0"/>
+        <ComboBox HorizontalAlignment="Right" Margin="0,60,20,0" VerticalAlignment="Top" Width="200"
+                  x:Name="CpuTypes" SelectedItem="{Binding Path=SelectedCPUtype, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  DisplayMemberPath="SPUtypeString"/>
+
+        <!-- IP ADDRESS -->
+        <TextBlock Text="IP address" HorizontalAlignment="Left" Margin="20,100,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="150" Padding="0,3,0,0"/>
+        <StackPanel HorizontalAlignment="Right" Height="25" Margin="0,100,20,0" VerticalAlignment="Top" Width="200" Orientation="Horizontal">
+            <TextBox x:Name="FirstOctet" HorizontalAlignment="Left" Height="25" Margin="0,0,0,0" TextWrapping="NoWrap"
+            VerticalAlignment="Top" Width="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+            <TextBlock Text="." Width="5" TextAlignment="Center" Padding="0,5,0,0"/>
+
+            <TextBox x:Name="SecondOctet" HorizontalAlignment="Left" Height="25" Margin="0,0,0,0" TextWrapping="NoWrap"
+            VerticalAlignment="Top" Width="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+            <TextBlock Text="." Width="6" TextAlignment="Center" Padding="0,5,0,0"/>
+
+            <TextBox x:Name="ThirdOctet" HorizontalAlignment="Left" Height="25" Margin="0,0,0,0" TextWrapping="NoWrap"
+            VerticalAlignment="Top" Width="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+            <TextBlock Text="." Width="5" TextAlignment="Center" Padding="0,5,0,0"/>
+
+            <TextBox x:Name="FourthOctet" HorizontalAlignment="Left" Height="25" Margin="0,0,0,0" TextWrapping="NoWrap"
+            VerticalAlignment="Top" Width="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        <!-- RACK -->
+        <TextBlock Text="PLC rack" HorizontalAlignment="Left" Margin="20,140,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="150" Padding="0,3,0,0"/>
+        <TextBox x:Name="Rack" HorizontalAlignment="Right" Height="25" Margin="0,140,20,0" TextWrapping="NoWrap"
+            VerticalAlignment="Top" Width="200" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        <!-- SLOT -->
+        <TextBlock Text="PLC slot" HorizontalAlignment="Left" Margin="20,180,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="150" Padding="0,3,0,0"/>
+        <TextBox x:Name="Slot" HorizontalAlignment="Right" Height="25" Margin="0,180,20,0" TextWrapping="NoWrap"
+            VerticalAlignment="Top" Width="200" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        <!-- CONNECTION ACTIVATED -->
+        <TextBlock Text="Connection activated" HorizontalAlignment="Left" Margin="20,220,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="150" Padding="0,3,0,0"/>
+        <Grid HorizontalAlignment="Right" Height="25" Margin="0,220,20,0" VerticalAlignment="Top" Width="200">
+            <CheckBox Content="Active" x:Name="ConnectionActivated"/>
+        </Grid>
+
+        <!-- BUTTONS -->
+        <Button x:Name="AddNewConnection" Content="Add" HorizontalAlignment="Left" Margin="60,0,0,20" VerticalAlignment="Bottom" Width="120" Height="30"
+                Visibility="{Binding Path=AddingNew, Converter={StaticResource BoolToVis}}"/>
+        <Button x:Name="ModifyConnection" Content="Apply" HorizontalAlignment="Left" Margin="60,0,0,20" VerticalAlignment="Bottom" Width="120" Height="30"
+                Visibility="{Binding Path=Modification, Converter={StaticResource BoolToVis}}"/>
+        <Button x:Name="CloseTheWindow" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,60,20" VerticalAlignment="Bottom" Width="120" Height="30"/>
+    </Grid>
+</Window>

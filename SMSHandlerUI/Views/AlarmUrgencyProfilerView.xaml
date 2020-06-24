@@ -1,0 +1,374 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:local="clr-namespace:SMSHandlerUI.Views"
+        xmlns:UserControls="clr-namespace:SMSHandlerUI.UserControls" x:Class="SMSHandlerUI.Views.AlarmUrgencyProfilerView"
+        mc:Ignorable="d" FontSize="14" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Title="Alarm urgency profiler" Height="560" Width="620">
+    <Window.Resources>
+        <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="2,4,4,2"/>
+        </Style>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseMove">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <!-- PROFILE NAME -->
+        <TextBlock Text="Profile name" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="100" Padding="0,3,0,0"/>
+        <TextBox x:Name="ProfileName" HorizontalAlignment="Right" Height="25" Margin="0,20,10,0" TextWrapping="NoWrap"
+            VerticalAlignment="Top" Width="435" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+            IsEnabled="{Binding Path=ProfileNameEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- COMMENT -->
+        <TextBlock Text="Comment" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="100" Padding="0,3,0,0"/>
+        <TextBox x:Name="Comment" HorizontalAlignment="Right" Height="25" Margin="0,50,10,0" TextWrapping="NoWrap"
+            VerticalAlignment="Top" Width="435" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+
+        <!-- WEEKDAYS -->
+        <ScrollViewer Margin="10,90,10,70">
+            <StackPanel Margin="0,0,0,0" Orientation="Vertical">
+
+                <!-- MONDAY -->
+                <GroupBox x:Name="Monday" Header="Monday" Height="110" Margin="0,10,3,0" VerticalAlignment="Top">
+                    <Grid>
+                        <!-- RADIO BUTTON -->
+                        <StackPanel Orientation="Vertical" Width="120" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Margin="10,10,0,0">
+                            <RadioButton x:Name="MondayAlwaysSend" GroupName="MondaySendType" Content="Always send"/>
+                            <RadioButton x:Name="MondayNeverSend" GroupName="MondaySendType" Content="Never send"/>
+                            <RadioButton x:Name="MondaySendBetween" GroupName="MondaySendType" Content="Send between"/>
+                        </StackPanel>
+
+                        <!-- TIME PROGRESS BAR -->
+                        <UserControls:TimeProgressBar x:Name="MondayTimeAxis" HorizontalAlignment="Right" Height="20" Margin="0,10,10,0" 
+                            VerticalAlignment="Top" Width="400" IsEnabled="{Binding ElementName=MondaySendBetween, Path=IsChecked}"
+                            ValueLower="{Binding ElementName=MondayLowerHour, Path=Value}" ValueUpper="{Binding ElementName=MondayUpperHour, Path=Value}" 
+                            Tag="{Binding Path=MondayDayNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock x:Name="MondayLowerText" HorizontalAlignment="Right" Margin="0,35,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=MondaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=MondayLowerHour, Path=Value}"/>
+                        <TextBlock x:Name="MondayUpperText" HorizontalAlignment="Right" Margin="0,60,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=MondaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=MondayUpperHour, Path=Value}"/>
+                        <Slider x:Name="MondayLowerHour" HorizontalAlignment="Right" Margin="0,35,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="0" Maximum="23" IsEnabled="{Binding ElementName=MondaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="LowerValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=MondayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                        <Slider x:Name="MondayUpperHour" HorizontalAlignment="Right" Margin="0,60,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="1" Maximum="24" IsEnabled="{Binding ElementName=MondaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="UpperValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=MondayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                    </Grid>
+                </GroupBox>
+
+                <!-- TUESDAY -->
+                <GroupBox Header="Tuesday" Height="110" Margin="0,10,3,0" VerticalAlignment="Top">
+                    <Grid>
+                        <!-- RADIO BUTTON -->
+                        <StackPanel Orientation="Vertical" Width="120" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Margin="10,10,0,0">
+                            <RadioButton x:Name="TuesdayAlwaysSend" GroupName="TuesdaySendType" Content="Always send"/>
+                            <RadioButton x:Name="TuesdayNeverSend" GroupName="TuesdaySendType" Content="Never send"/>
+                            <RadioButton x:Name="TuesdaySendBetween" GroupName="TuesdaySendType" Content="Send between"/>
+                        </StackPanel>
+
+                        <!-- TIME PROGRESS BAR -->
+                        <UserControls:TimeProgressBar x:Name="TuesdayTimeAxis" HorizontalAlignment="Right" Height="20" Margin="0,10,10,0" 
+                            VerticalAlignment="Top" Width="400" IsEnabled="{Binding ElementName=TuesdaySendBetween, Path=IsChecked}"
+                            ValueLower="{Binding ElementName=TuesdayLowerHour, Path=Value}" ValueUpper="{Binding ElementName=TuesdayUpperHour, Path=Value}" 
+                            Tag="{Binding Path=TuesdayDayNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock x:Name="TuesdayLowerText" HorizontalAlignment="Right" Margin="0,35,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=TuesdaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=TuesdayLowerHour, Path=Value}"/>
+                        <TextBlock x:Name="TuesdayUpperText" HorizontalAlignment="Right" Margin="0,60,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=TuesdaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=TuesdayUpperHour, Path=Value}"/>
+                        <Slider x:Name="TuesdayLowerHour" HorizontalAlignment="Right" Margin="0,35,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="0" Maximum="23" IsEnabled="{Binding ElementName=TuesdaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="LowerValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=TuesdayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                        <Slider x:Name="TuesdayUpperHour" HorizontalAlignment="Right" Margin="0,60,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="1" Maximum="24" IsEnabled="{Binding ElementName=TuesdaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="UpperValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=TuesdayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                    </Grid>
+                </GroupBox>
+
+                <!-- WEDNESDAY-->
+                <GroupBox Header="Wednesday" Height="110" Margin="0,10,3,0" VerticalAlignment="Top">
+                    <Grid>
+                        <!-- RADIO BUTTON -->
+                        <StackPanel Orientation="Vertical" Width="120" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Margin="10,10,0,0">
+                            <RadioButton x:Name="WednesdayAlwaysSend" GroupName="WednesdaySendType" Content="Always send"/>
+                            <RadioButton x:Name="WednesdayNeverSend" GroupName="WednesdaySendType" Content="Never send"/>
+                            <RadioButton x:Name="WednesdaySendBetween" GroupName="WednesdaySendType" Content="Send between"/>
+                        </StackPanel>
+
+                        <!-- TIME PROGRESS BAR -->
+                        <UserControls:TimeProgressBar x:Name="WednesdayTimeAxis" HorizontalAlignment="Right" Height="20" Margin="0,10,10,0" 
+                            VerticalAlignment="Top" Width="400" IsEnabled="{Binding ElementName=WednesdaySendBetween, Path=IsChecked}"
+                            ValueLower="{Binding ElementName=WednesdayLowerHour, Path=Value}" ValueUpper="{Binding ElementName=WednesdayUpperHour, Path=Value}" 
+                            Tag="{Binding Path=WednesdayDayNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock x:Name="WednesdayLowerText" HorizontalAlignment="Right" Margin="0,35,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=WednesdaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=WednesdayLowerHour, Path=Value}"/>
+                        <TextBlock x:Name="WednesdayUpperText" HorizontalAlignment="Right" Margin="0,60,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=WednesdaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=WednesdayUpperHour, Path=Value}"/>
+                        <Slider x:Name="WednesdayLowerHour" HorizontalAlignment="Right" Margin="0,35,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="0" Maximum="23" IsEnabled="{Binding ElementName=WednesdaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="LowerValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=WednesdayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                        <Slider x:Name="WednesdayUpperHour" HorizontalAlignment="Right" Margin="0,60,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="1" Maximum="24" IsEnabled="{Binding ElementName=WednesdaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="UpperValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=WednesdayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                    </Grid>
+                </GroupBox>
+
+                <!-- THURSDAY -->
+                <GroupBox Header="Thursday" Height="110" Margin="0,10,3,0" VerticalAlignment="Top">
+                    <Grid>
+                        <!-- RADIO BUTTON -->
+                        <StackPanel Orientation="Vertical" Width="120" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Margin="10,10,0,0">
+                            <RadioButton x:Name="ThursdayAlwaysSend" GroupName="ThursdaySendType" Content="Always send"/>
+                            <RadioButton x:Name="ThursdayNeverSend" GroupName="ThursdaySendType" Content="Never send"/>
+                            <RadioButton x:Name="ThursdaySendBetween" GroupName="ThursdaySendType" Content="Send between"/>
+                        </StackPanel>
+
+                        <!-- TIME PROGRESS BAR -->
+                        <UserControls:TimeProgressBar x:Name="ThursdayTimeAxis" HorizontalAlignment="Right" Height="20" Margin="0,10,10,0" 
+                            VerticalAlignment="Top" Width="400" IsEnabled="{Binding ElementName=ThursdaySendBetween, Path=IsChecked}"
+                            ValueLower="{Binding ElementName=ThursdayLowerHour, Path=Value}" ValueUpper="{Binding ElementName=ThursdayUpperHour, Path=Value}" 
+                            Tag="{Binding Path=ThursdayDayNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock x:Name="ThursdayLowerText" HorizontalAlignment="Right" Margin="0,35,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=ThursdaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=ThursdayLowerHour, Path=Value}"/>
+                        <TextBlock x:Name="ThursdayUpperText" HorizontalAlignment="Right" Margin="0,60,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=ThursdaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=ThursdayUpperHour, Path=Value}"/>
+                        <Slider x:Name="ThursdayLowerHour" HorizontalAlignment="Right" Margin="0,35,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="0" Maximum="23" IsEnabled="{Binding ElementName=ThursdaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="LowerValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=ThursdayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                        <Slider x:Name="ThursdayUpperHour" HorizontalAlignment="Right" Margin="0,60,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="1" Maximum="24" IsEnabled="{Binding ElementName=ThursdaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="UpperValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=ThursdayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                    </Grid>
+                </GroupBox>
+
+                <!-- FRIDAY -->
+                <GroupBox Header="Friday" Height="110" Margin="0,10,3,0" VerticalAlignment="Top">
+                    <Grid>
+                        <!-- RADIO BUTTON -->
+                        <StackPanel Orientation="Vertical" Width="120" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Margin="10,10,0,0">
+                            <RadioButton x:Name="FridayAlwaysSend" GroupName="FridaySendType" Content="Always send"/>
+                            <RadioButton x:Name="FridayNeverSend" GroupName="FridaySendType" Content="Never send"/>
+                            <RadioButton x:Name="FridaySendBetween" GroupName="FridaySendType" Content="Send between"/>
+                        </StackPanel>
+
+                        <!-- TIME PROGRESS BAR -->
+                        <UserControls:TimeProgressBar x:Name="FridayTimeAxis" HorizontalAlignment="Right" Height="20" Margin="0,10,10,0" 
+                            VerticalAlignment="Top" Width="400" IsEnabled="{Binding ElementName=FridaySendBetween, Path=IsChecked}"
+                            ValueLower="{Binding ElementName=FridayLowerHour, Path=Value}" ValueUpper="{Binding ElementName=FridayUpperHour, Path=Value}" 
+                            Tag="{Binding Path=FridayDayNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock x:Name="FridayLowerText" HorizontalAlignment="Right" Margin="0,35,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=FridaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=FridayLowerHour, Path=Value}"/>
+                        <TextBlock x:Name="FridayUpperText" HorizontalAlignment="Right" Margin="0,60,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=FridaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=FridayUpperHour, Path=Value}"/>
+                        <Slider x:Name="FridayLowerHour" HorizontalAlignment="Right" Margin="0,35,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="0" Maximum="23" IsEnabled="{Binding ElementName=FridaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="LowerValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=FridayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                        <Slider x:Name="FridayUpperHour" HorizontalAlignment="Right" Margin="0,60,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="1" Maximum="24" IsEnabled="{Binding ElementName=FridaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="UpperValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=FridayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                    </Grid>
+                </GroupBox>
+
+                <!-- SATURDAY -->
+                <GroupBox Header="Saturday" Height="110" Margin="0,10,3,0" VerticalAlignment="Top">
+                    <Grid>
+                        <!-- RADIO BUTTON -->
+                        <StackPanel Orientation="Vertical" Width="120" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Margin="10,10,0,0">
+                            <RadioButton x:Name="SaturdayAlwaysSend" GroupName="SaturdaySendType" Content="Always send"/>
+                            <RadioButton x:Name="SaturdayNeverSend" GroupName="SaturdaySendType" Content="Never send"/>
+                            <RadioButton x:Name="SaturdaySendBetween" GroupName="SaturdaySendType" Content="Send between"/>
+                        </StackPanel>
+
+                        <!-- TIME PROGRESS BAR -->
+                        <UserControls:TimeProgressBar x:Name="SaturdayTimeAxis" HorizontalAlignment="Right" Height="20" Margin="0,10,10,0" 
+                            VerticalAlignment="Top" Width="400" IsEnabled="{Binding ElementName=SaturdaySendBetween, Path=IsChecked}"
+                            ValueLower="{Binding ElementName=SaturdayLowerHour, Path=Value}" ValueUpper="{Binding ElementName=SaturdayUpperHour, Path=Value}" 
+                            Tag="{Binding Path=SaturdayDayNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock x:Name="SaturdayLowerText" HorizontalAlignment="Right" Margin="0,35,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=SaturdaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=SaturdayLowerHour, Path=Value}"/>
+                        <TextBlock x:Name="SaturdayUpperText" HorizontalAlignment="Right" Margin="0,60,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=SaturdaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=SaturdayUpperHour, Path=Value}"/>
+                        <Slider x:Name="SaturdayLowerHour" HorizontalAlignment="Right" Margin="0,35,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="0" Maximum="23" IsEnabled="{Binding ElementName=SaturdaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="LowerValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=SaturdayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                        <Slider x:Name="SaturdayUpperHour" HorizontalAlignment="Right" Margin="0,60,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="1" Maximum="24" IsEnabled="{Binding ElementName=SaturdaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="UpperValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=SaturdayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                    </Grid>
+                </GroupBox>
+
+                <!-- SUNDAY -->
+                <GroupBox Header="Sunday" Height="110" Margin="0,10,3,0" VerticalAlignment="Top">
+                    <Grid>
+                        <!-- RADIO BUTTON -->
+                        <StackPanel Orientation="Vertical" Width="120" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Margin="10,10,0,0">
+                            <RadioButton x:Name="SundayAlwaysSend" GroupName="SundaySendType" Content="Always send"/>
+                            <RadioButton x:Name="SundayNeverSend" GroupName="SundaySendType" Content="Never send"/>
+                            <RadioButton x:Name="SundaySendBetween" GroupName="SundaySendType" Content="Send between"/>
+                        </StackPanel>
+
+                        <!-- TIME PROGRESS BAR -->
+                        <UserControls:TimeProgressBar x:Name="SundayTimeAxis" HorizontalAlignment="Right" Height="20" Margin="0,10,10,0" 
+                            VerticalAlignment="Top" Width="400" IsEnabled="{Binding ElementName=SundaySendBetween, Path=IsChecked}"
+                            ValueLower="{Binding ElementName=SundayLowerHour, Path=Value}" ValueUpper="{Binding ElementName=SundayUpperHour, Path=Value}" 
+                            Tag="{Binding Path=SundayDayNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock x:Name="SundayLowerText" HorizontalAlignment="Right" Margin="0,35,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=SundaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=SundayLowerHour, Path=Value}"/>
+                        <TextBlock x:Name="SundayUpperText" HorizontalAlignment="Right" Margin="0,60,360,0" TextWrapping="NoWrap"
+                            VerticalAlignment="Top" Height="20" Width="50" Padding="5,0,0,0" IsEnabled="{Binding ElementName=SundaySendBetween, Path=IsChecked}"
+                            Text="{Binding ElementName=SundayUpperHour, Path=Value}"/>
+                        <Slider x:Name="SundayLowerHour" HorizontalAlignment="Right" Margin="0,35,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="0" Maximum="23" IsEnabled="{Binding ElementName=SundaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="LowerValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=SundayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                        <Slider x:Name="SundayUpperHour" HorizontalAlignment="Right" Margin="0,60,10,0" VerticalAlignment="Top" Width="350" 
+                            Height="20" Minimum="1" Maximum="24" IsEnabled="{Binding ElementName=SundaySendBetween, Path=IsChecked}"
+                            Interval="1" IsSnapToTickEnabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="ValueChanged">
+                                    <cal:ActionMessage MethodName="UpperValueChanged">
+                                        <cal:Parameter Value="{Binding ElementName=SundayTimeAxis, Path=Tag}"/>
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- BUTTONS -->
+        <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="170,0,0,20" VerticalAlignment="Bottom" Width="120" Height="30"/>
+        <Button x:Name="CloseTheWindow" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,170,20" VerticalAlignment="Bottom" Width="120" Height="30"/>
+    </Grid>
+</Window>

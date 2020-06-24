@@ -1,0 +1,136 @@
+﻿<Window x:Class="SMSHandlerUI.Views.AlarmManagement.DefaultS7AlarmHendlerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:local="clr-namespace:SMSHandlerUI.Views.AlarmManagement"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" FontSize="14" ResizeMode="NoResize"
+        Title="Default S7 alarm definition" Height="680" Width="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseMove">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <!-- HEADING  - Data of alarm definition-->
+        <!-- CONNECTION NAME -->
+        <Label Content="PLC connection name:" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Height="25"
+            HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="Auto" Padding="0,0,0,0"/>
+        <Label HorizontalAlignment="Left" Margin="200,20,0,0" VerticalAlignment="Top" Height="25"
+            HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="Auto" Padding="0,0,0,0"
+               x:Name="ConnectionName"/>
+
+        <!-- ALARM ACTIVATED -->
+        <Label Content="Alarm activated:" HorizontalAlignment="Left" Margin="420,20,0,0" VerticalAlignment="Top" Height="25"
+            HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="Auto" Padding="0,0,0,0"/>
+        <CheckBox Content="Activated" HorizontalAlignment="Left" Margin="594,20,0,0" VerticalAlignment="Top" Height="25"
+                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Width="180"
+                  IsChecked="{Binding Path=AlarmActivated, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- ALARM PROFILE-->
+        <Label Content="Alarm profile name:" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" Height="25"
+            HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="Auto" Padding="0,0,0,0"/>
+        <ComboBox HorizontalAlignment="Left" Margin="200,60,0,0" VerticalAlignment="Top" Width="180"
+                  x:Name="AlarmUrgencyProfile" SelectedItem="{Binding Path=SelectedAlarmUrgencyProfile, Mode=TwoWay}"
+                  DisplayMemberPath="Name"/>
+
+        <!-- SMS RECIPIENTS GROUP -->
+        <Label Content="Recipients group name:" HorizontalAlignment="Left" Margin="420,60,0,0" VerticalAlignment="Top" Height="25"
+            HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="Auto" Padding="0,0,0,0"/>
+        <ComboBox Margin="0,60,20,0" VerticalAlignment="Top"
+            x:Name="SmsRecipientsGroups" SelectedItem="{Binding SelectedSMSrecipientsGroup, Mode=TwoWay}"
+            DisplayMemberPath="Name" HorizontalAlignment="Right" Width="180"/>
+
+        <!-- ALARM TAG NAME -->
+        <Label Width="180" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25"
+                   Padding="0,0,0,0" Margin="20,100,0,0" Content="Alarm Tag name:" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="AlmTagName" Height="25" Margin="200,100,20,0" VerticalAlignment="Top" />
+
+        <!-- ALARM ADDRESS BIT -->
+        <StackPanel Height="25" Margin="20,140,20,0" VerticalAlignment="Top" Orientation="Horizontal">
+            <Label Content="Alarm Tag Address:" Height="25" Width="180" VerticalContentAlignment="Center" Padding="0,0,0,0"/>
+            <Label Content="DB number:" Height="25" VerticalContentAlignment="Center" Padding="0,0,0,0"/>
+            <TextBox x:Name="AlmDBnumber" Height="25" Width="Auto" Margin="5,0,5,0" HorizontalContentAlignment="Left"
+                     VerticalContentAlignment="Center" Text="{Binding Path=AlmDBnumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     MinWidth="60"/>
+            <Label Content="Byte number:" Height="25" VerticalContentAlignment="Center" Padding="0,0,0,0" Margin="5,0,5,0"/>
+            <TextBox x:Name="AlmByteNumber" Height="25" Width="Auto" Margin="5,0,5,0" HorizontalContentAlignment="Left"
+                     VerticalContentAlignment="Center" Text="{Binding Path=AlmByteNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     MinWidth="60"/>
+            <Label Content="Bit number:" Height="25" VerticalContentAlignment="Center" Padding="0,0,0,0" Margin="5,0,5,0"/>
+            <TextBox x:Name="AlmBitNumber" Height="25" Width="Auto" Margin="5,0,5,0" HorizontalContentAlignment="Left"
+                     VerticalContentAlignment="Center" Text="{Binding Path=AlmBitNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     MinWidth="60"/>
+        </StackPanel>
+
+        <!-- ACK TAG NAME -->
+        <Label Width="180" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25"
+            Padding="0,0,0,0" Margin="20,180,0,0" Content="Ack Tag name:" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="AckTagName" Height="25" Margin="200,180,20,0" VerticalAlignment="Top" />
+
+        <!-- ACKNOWLEDGEMENT ADDRESS BIT -->
+        <StackPanel Height="25" Margin="20,220,20,0" VerticalAlignment="Top" Orientation="Horizontal">
+            <Label Content="Ack Tag Address:" Height="25" Width="180" VerticalContentAlignment="Center" Padding="0,0,0,0"/>
+            <Label Content="DB number:" Height="25" VerticalContentAlignment="Center" Padding="0,0,0,0"/>
+            <TextBox x:Name="AckDBnumber" Height="25" Width="Auto" Margin="5,0,5,0" HorizontalContentAlignment="Left"
+                     VerticalContentAlignment="Center" Text="{Binding Path=AckDBnumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     MinWidth="60"/>
+            <Label Content="Byte number:" Height="25" VerticalContentAlignment="Center" Padding="0,0,0,0" Margin="5,0,5,0"/>
+            <TextBox x:Name="AckByteNumber" Height="25" Width="Auto" Margin="5,0,5,0" HorizontalContentAlignment="Left"
+                     VerticalContentAlignment="Center" Text="{Binding Path=AckByteNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     MinWidth="60"/>
+            <Label Content="Bit number:" Height="25" VerticalContentAlignment="Center" Padding="0,0,0,0" Margin="5,0,5,0"/>
+            <TextBox x:Name="AckBitNumber" Height="25" Width="Auto" Margin="5,0,5,0" HorizontalContentAlignment="Left"
+                     VerticalContentAlignment="Center" Text="{Binding Path=AckBitNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     MinWidth="60"/>
+        </StackPanel>
+
+        <!-- LIST VIEW WITH TEXTS OF ALARMS-->
+        <ListView Margin="20,0,20,70"
+                  x:Name="ListOfEditableTexts" SelectedItem="{Binding Path=SelectedEditableText}"
+                  ScrollViewer.CanContentScroll="True" Height="300" VerticalAlignment="Bottom">
+
+            <!-- SETTERS -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <!-- DATA -->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Language" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       Text="{Binding LanguageName}" Height="25" Padding="0,3,0,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Alarm SMS text" Width="550">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                       Text="{Binding AlarmText}" Height="25" VerticalContentAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- BUTTONS -->
+        <Button x:Name="ApplyAndCLose" Content="Apply and close" HorizontalAlignment="Left" Margin="260,0,0,20"
+                VerticalAlignment="Bottom" Width="120" Height="30"/>
+        <Button x:Name="CloseTheWindow" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,260,20"
+                VerticalAlignment="Bottom" Width="120" Height="30"/>
+
+    </Grid>
+</Window>

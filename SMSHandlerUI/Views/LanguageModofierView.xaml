@@ -1,0 +1,98 @@
+﻿<Window x:Class="SMSHandlerUI.Views.LanguageModofierView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:local="clr-namespace:SMSHandlerUI.Views"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" FontSize="14"
+        Title="Modify languages assignment" Height="550" Width="610" ResizeMode="NoResize">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseMove">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <!-- LIST VIEW WIT LANGUAGES LIST -->
+        <ListView x:Name="Languages" Margin="10,10,10,70" ItemsSource="{Binding Path=Languages, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding SelectedLanguage}" ScrollViewer.CanContentScroll="True">
+
+            <!-- SETTERS -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Resources>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </ListView.Resources>
+
+            <!-- DISPLAYING ITEMS FROM DB -->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Language data" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                                    Content="{Binding LanguageName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Language name" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                                    Text="{Binding LanguageText, Mode=TwoWay}" IsEnabled="{Binding Editable, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Enabled" Width="70">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Enabled, Mode=TwoWay}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <cal:ActionMessage MethodName="EnableCheckBoxUnchhecked">
+                                                <cal:Parameter Value="{Binding Identity}"/>
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Selected" Width="70">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsEnabled="{Binding Enabled, Mode=TwoWay}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <cal:ActionMessage MethodName="LangSelectionCheckBoxClicked">
+                                                <cal:Parameter Value="{Binding Identity}"/>
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <!-- BUTTONS -->
+        <Button x:Name="CloseTheWindow" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,160,20"
+                VerticalAlignment="Bottom" Width="120" Height="30"/>
+        <Button x:Name="ModifyAlarmLanguages" Content="Apply and Close" HorizontalAlignment="Left"
+                Margin="160,0,0,20" VerticalAlignment="Bottom" Width="120" Height="30"/>
+    </Grid>
+</Window>

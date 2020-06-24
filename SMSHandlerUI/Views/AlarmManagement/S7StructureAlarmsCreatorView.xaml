@@ -1,0 +1,109 @@
+﻿<Window x:Class="SMSHandlerUI.Views.AlarmManagement.S7StructureAlarmsCreatorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:local="clr-namespace:SMSHandlerUI.Views.AlarmManagement"
+        mc:Ignorable="d" FontSize="14" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Title="S7 structure alarms creator" Height="600" Width="590">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseMove">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <!-- PLC connection name-->
+        <Label Content="PLC connection name:" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Height="25"
+            HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="Auto" Padding="0,0,0,0"/>
+        <Label HorizontalAlignment="Left" Margin="200,20,0,0" VerticalAlignment="Top" Height="25"
+            HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="Auto" Padding="0,0,0,0"
+               x:Name="PlcConnectionName"/>
+
+        <!-- Alarm profile -->
+        <Label Content="Alarm profile name:" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" Height="25"
+            HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="Auto" Padding="0,0,0,0"/>
+        <ComboBox HorizontalAlignment="Left" Margin="200,60,0,0" VerticalAlignment="Top" Width="180"
+            x:Name="AlarmUrgencyProfile" SelectedItem="{Binding SelectedAlarmUrgencyProfile, Mode=TwoWay}"
+            DisplayMemberPath="Name"/>
+
+        <!-- Recipients group Name -->
+        <Label Content="Recipients group name:" HorizontalAlignment="Left" Margin="20,100,0,0" VerticalAlignment="Top" Height="25"
+            HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="Auto" Padding="0,0,0,0"/>
+        <ComboBox Margin="200,100,0,0" VerticalAlignment="Top"
+            x:Name="SmsRecipientsGroups" SelectedItem="{Binding SelectedSMSrecipientsGroup, Mode=TwoWay}"
+            DisplayMemberPath="Name" HorizontalAlignment="Left" Width="180"/>
+
+        <!-- PLC structure name-->
+        <Label Width="180" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25"
+            Padding="0,0,0,0" Margin="20,140,0,0" Content="PLC structure name:" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="NameOfPLCstructure" Height="25" Margin="200,140,20,0" VerticalAlignment="Top" />
+
+        <!-- PLC db number -->
+        <Label Width="180" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25"
+            Padding="0,0,0,0" Margin="20,180,0,0" Content="PLC DB number:" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="NumberOfPLCdb" Height="25" Margin="200,180,20,0" VerticalAlignment="Top" />
+
+        <!-- PLC structure start byte -->
+        <Label Width="180" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25"
+            Padding="0,0,0,0" Margin="20,220,0,0" Content="PLC structure start byte:" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="StructureStartByte" Height="25" Margin="200,220,20,0" VerticalAlignment="Top" />
+
+        <!-- List view with available alarms -->
+        <ListView Margin="20,260,20,70" x:Name="AvailableAlarms" SelectedItem="{Binding Path=SelectedAlarm}"
+                  ScrollViewer.CanContentScroll="True">
+
+            <!-- SETTERS -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Resources>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </ListView.Resources>
+
+            <!-- DATA -->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Alarm type name" Width="250">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       Text="{Binding AlarmTypeName}" Height="25" Padding="0,3,0,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Add this alarm" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding AddThisAlarm}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Activate alarm" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding ActivateAlarm}" IsEnabled="{Binding AddThisAlarm}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <!-- BUTTONS -->
+        <Button x:Name="ApplyAndCLose" Content="Apply and close" HorizontalAlignment="Left" Margin="150,0,0,20"
+            VerticalAlignment="Bottom" Width="120" Height="30"/>
+        <Button x:Name="CloseTheWindow" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,150,20"
+            VerticalAlignment="Bottom" Width="120" Height="30"/>
+    </Grid>
+</Window>

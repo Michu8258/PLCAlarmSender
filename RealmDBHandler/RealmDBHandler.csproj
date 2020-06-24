@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Realm.4.2.0\build\Realm.props" Condition="Exists('..\packages\Realm.4.2.0\build\Realm.props')" />
+  <Import Project="..\packages\Realm.Fody.4.2.0\build\Realm.Fody.props" Condition="Exists('..\packages\Realm.Fody.4.2.0\build\Realm.Fody.props')" />
+  <Import Project="..\packages\FodyHelpers.6.0.0\build\FodyHelpers.props" Condition="Exists('..\packages\FodyHelpers.6.0.0\build\FodyHelpers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{37D292FE-46C0-4811-BCD4-42F75366A22E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RealmDBHandler</RootNamespace>
+    <AssemblyName>RealmDBHandler</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FodyHelpers, Version=6.0.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
+      <HintPath>..\packages\FodyHelpers.6.0.0\lib\netstandard2.0\FodyHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil, Version=0.11.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
+      <HintPath>..\packages\FodyHelpers.6.0.0\lib\netstandard2.0\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.11.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
+      <HintPath>..\packages\FodyHelpers.6.0.0\lib\netstandard2.0\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.11.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
+      <HintPath>..\packages\FodyHelpers.6.0.0\lib\netstandard2.0\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Context, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Context.5.0.0\lib\netstandard2.0\Nito.AsyncEx.Context.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Tasks, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Tasks.5.0.0\lib\netstandard2.0\Nito.AsyncEx.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Disposables, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.Disposables.2.0.0\lib\netstandard2.0\Nito.Disposables.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.7\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Realm, Version=4.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Realm.4.2.0\lib\netstandard2.0\Realm.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlarmLanguagesTexts\SavedLanguagesCreator.cs" />
+    <Compile Include="AlarmLanguagesTexts\SavedLanguagesDeleter.cs" />
+    <Compile Include="AlarmLanguagesTexts\SavedLanguagesModifier.cs" />
+    <Compile Include="AlarmLanguagesTexts\SavedLanguagesReader.cs" />
+    <Compile Include="AlarmS7Handling\AlarmS7Creator.cs" />
+    <Compile Include="AlarmS7Handling\AlarmS7Deleter.cs" />
+    <Compile Include="AlarmS7Handling\AlarmS7Modifier.cs" />
+    <Compile Include="AlarmS7Handling\AlarmS7Reader.cs" />
+    <Compile Include="AlarmS7Handling\AlarmS7UImodel.cs" />
+    <Compile Include="AlarmS7Handling\AlarmS7UImodelDivider.cs" />
+    <Compile Include="AlarmTextsHandling\AlarmTextsCreator.cs" />
+    <Compile Include="AlarmTextsHandling\AlarmTextsDeleter.cs" />
+    <Compile Include="AlarmTextsHandling\AlarmTextsModifier.cs" />
+    <Compile Include="AlarmTextsHandling\AlarmTextsReader.cs" />
+    <Compile Include="AlarmUrgencyProfiler\AlarmProfileCreator.cs" />
+    <Compile Include="AlarmUrgencyProfiler\AlarmProfileDeleter.cs" />
+    <Compile Include="AlarmUrgencyProfiler\AlarmProfileModifier.cs" />
+    <Compile Include="AlarmUrgencyProfiler\AlarmProfileNameUniquenessChecker.cs" />
+    <Compile Include="AlarmUrgencyProfiler\AlarmProfileReader.cs" />
+    <Compile Include="CommonClasses\ExistingElementsCounter.cs" />
+    <Compile Include="CommonClasses\IidentityPrimaryKeyInterface.cs" />
+    <Compile Include="AlarmLanguagesTexts\LanguageEditData.cs" />
+    <Compile Include="CommonClasses\IplcConnectionIdentity.cs" />
+    <Compile Include="CommonClasses\IRealmProvider.cs" />
+    <Compile Include="CommonClasses\RealmDBLocator.cs" />
+    <Compile Include="CommonClasses\TimeStampConverter.cs" />
+    <Compile Include="DefaultDataBaseCreation\DataBaseStartupChangesModel.cs" />
+    <Compile Include="DefaultDataBaseCreation\DefaultDBcreator.cs" />
+    <Compile Include="EnumsAndConverters\S7CpuTypeConverter.cs" />
+    <Compile Include="EnumsAndConverters\SystemEventTypeConverter.cs" />
+    <Compile Include="NLogConfig\NlogConfigDeleter.cs" />
+    <Compile Include="NLogConfig\NlogConfigCreator.cs" />
+    <Compile Include="NLogConfig\NlogConfigModifier.cs" />
+    <Compile Include="NLogConfig\NlogConfigReader.cs" />
+    <Compile Include="PLCconnectionsHandling\NewConnectionIDProvider.cs" />
+    <Compile Include="PLCconnectionsHandling\PLCconnectionCreator.cs" />
+    <Compile Include="EnumsAndConverters\S7CpuTypeEnum.cs" />
+    <Compile Include="PLCconnectionsHandling\PLCconnectionDeleter.cs" />
+    <Compile Include="PLCconnectionsHandling\PLCconnectionModifier.cs" />
+    <Compile Include="PLCconnectionsHandling\PLCconnectionNameUniquenessChecker.cs" />
+    <Compile Include="PLCconnectionsHandling\PLCconnectionReader.cs" />
+    <Compile Include="RealmObjects\AlarmLanguagesDefinition.cs" />
+    <Compile Include="RealmObjects\AlarmProfileDefinition.cs" />
+    <Compile Include="RealmObjects\AlarmProfilerDayDefinition.cs" />
+    <Compile Include="RealmObjects\NLogConfigurationDefinition.cs" />
+    <Compile Include="RealmObjects\S7AlarmDefinition.cs" />
+    <Compile Include="RealmObjects\S7PlcConnectionDefinition.cs" />
+    <Compile Include="RealmObjects\SMSrecipientDefinition.cs" />
+    <Compile Include="RealmObjects\SMSrecipientsGroupDefinition.cs" />
+    <Compile Include="RealmObjects\SystemDBLogDefinition.cs" />
+    <Compile Include="SMSrecipientsGroupHandling\SMSrecipientsGroupCreator.cs" />
+    <Compile Include="SMSrecipientsGroupHandling\SMSrecipientsGroupDeleter.cs" />
+    <Compile Include="SMSrecipientsGroupHandling\SMSrecipientsGroupModifier.cs" />
+    <Compile Include="SMSrecipientsGroupHandling\SMSrecipientsGroupReader.cs" />
+    <Compile Include="SMSrecipientsGroupHandling\SMSrecipientsGroupUniquenessChecker.cs" />
+    <Compile Include="SMSrecipientsHandling\SMSrecipientCreator.cs" />
+    <Compile Include="SMSrecipientsHandling\SMSrecipientDeleter.cs" />
+    <Compile Include="SMSrecipientsHandling\SMSrecipientModifier.cs" />
+    <Compile Include="SMSrecipientsHandling\SMSrecipientReader.cs" />
+    <Compile Include="SystemEventsHandler\SystemEventCreator.cs" />
+    <Compile Include="EnumsAndConverters\SystemEventTypeEnum.cs" />
+    <Compile Include="SystemEventsHandler\SystemEventGUImodel.cs" />
+    <Compile Include="SystemEventsHandler\SystemEventReader.cs" />
+    <Compile Include="UserManagement\UserDataConverter.cs" />
+    <Compile Include="EnumsAndConverters\AccesLevelConverter.cs" />
+    <Compile Include="EnumsAndConverters\AccessLevelEnum.cs" />
+    <Compile Include="PasswordHanling\PasswordEncryptor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RealmObjects\AlarmLanguageDefinition.cs" />
+    <Compile Include="RealmObjects\UserDefinition.cs" />
+    <Compile Include="UserManagement\AuthenticationResultEnum.cs" />
+    <Compile Include="UserManagement\ExistingUserDataProvider.cs" />
+    <Compile Include="UserManagement\LoggedUserData.cs" />
+    <Compile Include="UserManagement\LoginAuthenticator.cs" />
+    <Compile Include="UserManagement\LoginDataFromDBObtainer.cs" />
+    <Compile Include="UserManagement\UserDataManipulationHandler.cs" />
+    <Compile Include="CommonClasses\NewIdentityProvider.cs" />
+    <Compile Include="UserManagement\UserManagementListViewModel.cs" />
+    <Compile Include="UserManagement\UserNameAvailabilityChecker.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NLogHandler\NLogHandler.csproj">
+      <Project>{564d3945-fe2d-4b45-855b-ac9bddd6df41}</Project>
+      <Name>NLogHandler</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.6.0.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.0.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\FodyHelpers.6.0.0\build\FodyHelpers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FodyHelpers.6.0.0\build\FodyHelpers.props'))" />
+    <Error Condition="!Exists('..\packages\FodyHelpers.6.0.0\build\FodyHelpers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FodyHelpers.6.0.0\build\FodyHelpers.targets'))" />
+    <Error Condition="!Exists('..\packages\Realm.Fody.4.2.0\build\Realm.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Realm.Fody.4.2.0\build\Realm.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Realm.4.2.0\build\Realm.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Realm.4.2.0\build\Realm.props'))" />
+  </Target>
+  <Import Project="..\packages\FodyHelpers.6.0.0\build\FodyHelpers.targets" Condition="Exists('..\packages\FodyHelpers.6.0.0\build\FodyHelpers.targets')" />
+</Project>

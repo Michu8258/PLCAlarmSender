@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Realm.4.2.0\build\Realm.props" Condition="Exists('..\packages\Realm.4.2.0\build\Realm.props')" />
+  <Import Project="..\packages\Realm.Fody.4.2.0\build\Realm.Fody.props" Condition="Exists('..\packages\Realm.Fody.4.2.0\build\Realm.Fody.props')" />
+  <Import Project="..\packages\FodyHelpers.6.0.0\build\FodyHelpers.props" Condition="Exists('..\packages\FodyHelpers.6.0.0\build\FodyHelpers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4873D2FF-24F9-4108-939C-C765EC63F51A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SMSHandlerUI</RootNamespace>
+    <AssemblyName>SMSHandlerUI</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FodyHelpers, Version=6.0.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
+      <HintPath>..\packages\FodyHelpers.6.0.0\lib\netstandard2.0\FodyHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil, Version=0.11.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
+      <HintPath>..\packages\FodyHelpers.6.0.0\lib\netstandard2.0\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.11.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
+      <HintPath>..\packages\FodyHelpers.6.0.0\lib\netstandard2.0\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.11.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
+      <HintPath>..\packages\FodyHelpers.6.0.0\lib\netstandard2.0\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Context, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Context.5.0.0\lib\netstandard2.0\Nito.AsyncEx.Context.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Tasks, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Tasks.5.0.0\lib\netstandard2.0\Nito.AsyncEx.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Disposables, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.Disposables.2.0.0\lib\netstandard2.0\Nito.Disposables.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.7\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Realm, Version=4.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Realm.4.2.0\lib\netstandard2.0\Realm.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.18.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.18\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventMessages\AlarmManagentListFiltersEventMessage.cs" />
+    <Compile Include="EventMessages\SystemEventsFiltersEventMessage.cs" />
+    <Compile Include="IOfilesHandling\CreateJSONFile.cs" />
+    <Compile Include="GUIcontrolsHelper\ListViewBehavior.cs" />
+    <Compile Include="LoggedUserDataHandling\LoggedUserDataHandler.cs" />
+    <Compile Include="IOfilesHandling\OpenFile.cs" />
+    <Compile Include="GUIcontrolsHelper\PasswordBoxHelperClass.cs" />
+    <Compile Include="Models\LoggedUserDataGUIModel.cs" />
+    <Compile Include="ProgressWindowEnum\ProgressWindowTypeEnum.cs" />
+    <Compile Include="Converters\S7TypeToStringConverter.cs" />
+    <Compile Include="Models\AccessLevelModel.cs" />
+    <Compile Include="Converters\LanguageCodeConverter.cs" />
+    <Compile Include="Models\AlarmExportModel.cs" />
+    <Compile Include="Models\AlarmProfileComboBoxModel.cs" />
+    <Compile Include="Models\AlarmProfileExportModel.cs" />
+    <Compile Include="Models\DeleteOldLogFilesDaysModel.cs" />
+    <Compile Include="Models\HourToCreateNewLogFileModel.cs" />
+    <Compile Include="Models\ImportExportEventModel.cs" />
+    <Compile Include="Models\LanguageItemModel.cs" />
+    <Compile Include="Models\LanguageModificationModel.cs" />
+    <Compile Include="Models\NlogConfigModel.cs" />
+    <Compile Include="Models\PLCconnectionComboBoxModel.cs" />
+    <Compile Include="Models\S7AlarmEnabledTextsModel.cs" />
+    <Compile Include="Models\S7ConnectionModel.cs" />
+    <Compile Include="Models\S7cpuTypeModel.cs" />
+    <Compile Include="Models\SMSgroupsComboBoxModel.cs" />
+    <Compile Include="Models\SMSrecipientExportModel.cs" />
+    <Compile Include="Models\SMSrecipientsGroupComboBoxModel.cs" />
+    <Compile Include="Models\SystemEventsEtriesFilterModel.cs" />
+    <Compile Include="Models\TimeoutDataModel.cs" />
+    <Compile Include="Models\WInCCAlarmsImportLanguagesModel.cs" />
+    <Compile Include="RuntimeData\AppConfigHandler.cs" />
+    <Compile Include="RuntimeData\IRuntimeData.cs" />
+    <Compile Include="RuntimeData\RuntimeLogoutTimer.cs" />
+    <Compile Include="RuntimeData\RuntimeDataHandler.cs" />
+    <Compile Include="EventMessages\UserLoginEventMessage.cs" />
+    <Compile Include="UserControls\TimeProgressBar.xaml.cs">
+      <DependentUpon>TimeProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\AlarmManagement\AlarmManagerFiltersViewModel.cs" />
+    <Compile Include="ViewModels\AlarmManagement\AlarmProfilesAndSMSgroupsReader.cs" />
+    <Compile Include="ViewModels\AlarmManagement\DefaultS7AlarmHendlerViewModel.cs" />
+    <Compile Include="ViewModels\AlarmManagement\S7StructureAlarmsCreatorViewModel.cs" />
+    <Compile Include="ViewModels\AlarmsManagerViewModel.cs" />
+    <Compile Include="ViewModels\AlarmUrgencyProfileManagerViewModel.cs" />
+    <Compile Include="ViewModels\AlarmUrgencyProfilerViewModel.cs" />
+    <Compile Include="ViewModels\DataManipulation\AlarmExportManagerViewModel.cs" />
+    <Compile Include="ViewModels\DataManipulation\AlarmImportViewModel.cs" />
+    <Compile Include="ViewModels\DataManipulation\AlarmProfilesExportManagerViewModel.cs" />
+    <Compile Include="ViewModels\DataManipulation\ImportWinCCAlarmsDetailsViewModel.cs" />
+    <Compile Include="ViewModels\DataManipulation\ImportWinCCAlarmsViewModel.cs" />
+    <Compile Include="ViewModels\DataManipulation\ProfilesAndRecipientsImportViewModel.cs" />
+    <Compile Include="ViewModels\DataManipulation\ProgressBarViewModel.cs" />
+    <Compile Include="ViewModels\DataManipulation\SMSrecipientsExportManagerViewModel.cs" />
+    <Compile Include="ViewModels\LanguageModofierViewModel.cs" />
+    <Compile Include="ViewModels\NLogConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\PleaseWaitViewModel.cs" />
+    <Compile Include="ViewModels\S7ConnectionCreatorViewModel.cs" />
+    <Compile Include="ViewModels\S7ConnectionsManagerViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\SMSrecipientsGroupsAdderViewModel.cs" />
+    <Compile Include="ViewModels\SMSrecipientsGroupsManagerViewModel.cs" />
+    <Compile Include="ViewModels\SMSrecipientsManagerViewModel.cs" />
+    <Compile Include="ViewModels\SystemEventExplorerFilterViewModel.cs" />
+    <Compile Include="ViewModels\SystemEventsExplorerViewModel.cs" />
+    <Compile Include="ViewModels\UserCreatorViewModel.cs" />
+    <Compile Include="ViewModels\UserLoginViewModel.cs" />
+    <Compile Include="ViewModels\UserManagementViewModel.cs" />
+    <Compile Include="Views\AlarmManagement\AlarmManagerFiltersView.xaml.cs">
+      <DependentUpon>AlarmManagerFiltersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AlarmManagement\DefaultS7AlarmHendlerView.xaml.cs">
+      <DependentUpon>DefaultS7AlarmHendlerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AlarmManagement\S7StructureAlarmsCreatorView.xaml.cs">
+      <DependentUpon>S7StructureAlarmsCreatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AlarmsManagerView.xaml.cs">
+      <DependentUpon>AlarmsManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AlarmUrgencyProfileManagerView.xaml.cs">
+      <DependentUpon>AlarmUrgencyProfileManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AlarmUrgencyProfilerView.xaml.cs">
+      <DependentUpon>AlarmUrgencyProfilerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataManipulation\AlarmExportManagerView.xaml.cs">
+      <DependentUpon>AlarmExportManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataManipulation\AlarmImportView.xaml.cs">
+      <DependentUpon>AlarmImportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataManipulation\AlarmProfilesExportManagerView.xaml.cs">
+      <DependentUpon>AlarmProfilesExportManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataManipulation\ImportWinCCAlarmsDetailsView.xaml.cs">
+      <DependentUpon>ImportWinCCAlarmsDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataManipulation\ImportWinCCAlarmsView.xaml.cs">
+      <DependentUpon>ImportWinCCAlarmsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataManipulation\ProfilesAndRecipientsImportView.xaml.cs">
+      <DependentUpon>ProfilesAndRecipientsImportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataManipulation\ProgressBarView.xaml.cs">
+      <DependentUpon>ProgressBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataManipulation\SMSrecipientsExportManagerView.xaml.cs">
+      <DependentUpon>SMSrecipientsExportManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LanguageModofierView.xaml.cs">
+      <DependentUpon>LanguageModofierView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NLogConfigurationView.xaml.cs">
+      <DependentUpon>NLogConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PleaseWaitView.xaml.cs">
+      <DependentUpon>PleaseWaitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\S7ConnectionCreatorView.xaml.cs">
+      <DependentUpon>S7ConnectionCreatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\S7ConnectionsManagerView.xaml.cs">
+      <DependentUpon>S7ConnectionsManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SMSrecipientsGroupsAdderView.xaml.cs">
+      <DependentUpon>SMSrecipientsGroupsAdderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SMSrecipientsGroupsManagerView.xaml.cs">
+      <DependentUpon>SMSrecipientsGroupsManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SMSrecipientsManagerView.xaml.cs">
+      <DependentUpon>SMSrecipientsManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemEventExplorerFilterView.xaml.cs">
+      <DependentUpon>SystemEventExplorerFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemEventsExplorerView.xaml.cs">
+      <DependentUpon>SystemEventsExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserCreatorView.xaml.cs">
+      <DependentUpon>UserCreatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserLoginView.xaml.cs">
+      <DependentUpon>UserLoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserManagementView.xaml.cs">
+      <DependentUpon>UserManagementView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include=".editorconfig" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UserControls\TimeProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlarmManagement\AlarmManagerFiltersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlarmManagement\DefaultS7AlarmHendlerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlarmManagement\S7StructureAlarmsCreatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlarmsManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlarmUrgencyProfileManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlarmUrgencyProfilerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataManipulation\AlarmExportManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataManipulation\AlarmImportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataManipulation\AlarmProfilesExportManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataManipulation\ImportWinCCAlarmsDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataManipulation\ImportWinCCAlarmsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataManipulation\ProfilesAndRecipientsImportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataManipulation\ProgressBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataManipulation\SMSrecipientsExportManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LanguageModofierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NLogConfigurationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PleaseWaitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\S7ConnectionCreatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\S7ConnectionsManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SMSrecipientsGroupsAdderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SMSrecipientsGroupsManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SMSrecipientsManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemEventExplorerFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemEventsExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserCreatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserLoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserManagementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlarmsClasses\AlarmsClasses.csproj">
+      <Project>{81920bbd-4377-4ad7-a3ce-05c99e415596}</Project>
+      <Name>AlarmsClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataEdportImport\DataExportImport.csproj">
+      <Project>{7976873f-3c29-4185-9bd6-57319de79d56}</Project>
+      <Name>DataExportImport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NLogHandler\NLogHandler.csproj">
+      <Project>{564d3945-fe2d-4b45-855b-ac9bddd6df41}</Project>
+      <Name>NLogHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RealmDBHandler\RealmDBHandler.csproj">
+      <Project>{37d292fe-46c0-4811-bcd4-42f75366a22e}</Project>
+      <Name>RealmDBHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\S7AlarmsReader\S7AlarmsReader.csproj">
+      <Project>{e9c56c04-cbac-41a9-921c-e3283791fe04}</Project>
+      <Name>S7AlarmsReader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\S7Connections\S7Connections.csproj">
+      <Project>{0c6a3453-abe6-431f-9da1-2d48fd3dedd2}</Project>
+      <Name>S7Connections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMSsender\SMSsender.csproj">
+      <Project>{7ecb8784-2d1e-4773-9fd2-6a1056b0c7fa}</Project>
+      <Name>SMSsender</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LoadingGif.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.6.0.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.0.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\FodyHelpers.6.0.0\build\FodyHelpers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FodyHelpers.6.0.0\build\FodyHelpers.props'))" />
+    <Error Condition="!Exists('..\packages\FodyHelpers.6.0.0\build\FodyHelpers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FodyHelpers.6.0.0\build\FodyHelpers.targets'))" />
+    <Error Condition="!Exists('..\packages\Realm.Fody.4.2.0\build\Realm.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Realm.Fody.4.2.0\build\Realm.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Realm.4.2.0\build\Realm.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Realm.4.2.0\build\Realm.props'))" />
+  </Target>
+  <Import Project="..\packages\FodyHelpers.6.0.0\build\FodyHelpers.targets" Condition="Exists('..\packages\FodyHelpers.6.0.0\build\FodyHelpers.targets')" />
+</Project>

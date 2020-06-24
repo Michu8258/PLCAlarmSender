@@ -1,0 +1,15 @@
+﻿using RealmDBHandler.CommonClasses;
+using Realms;
+
+namespace RealmDBHandler.RealmObjects
+{
+    public class AlarmProfileDefinition : RealmObject, IIdentityPrimaryKeyInterface
+    {
+        [PrimaryKey]
+        public int Identity { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ProfileName { get; set; }
+        public string ProfileComment { get; set; }
+    }
+}

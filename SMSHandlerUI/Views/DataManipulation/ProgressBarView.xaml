@@ -1,0 +1,83 @@
+﻿<Window x:Class="SMSHandlerUI.Views.DataManipulation.ProgressBarView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:local="clr-namespace:SMSHandlerUI.Views.DataManipulation"
+        mc:Ignorable="d" FontSize="14" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Height="450" Width="900" Loaded="Window_Loaded">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseMove">
+            <cal:ActionMessage MethodName="ResetLogoutTimer"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+
+        <!-- PROGRESS BAR -->
+        <TextBlock Text="Progress:" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Height="25"
+            TextAlignment="Left" Width="Auto" Padding="0,3,0,0"/>
+        <ProgressBar Height="20" Margin="20,60,20,0" VerticalAlignment="Top" FlowDirection="LeftToRight" 
+                     Background="AntiqueWhite" Foreground="Blue"
+                     Minimum="{Binding Path=LowLimit, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                     Maximum="{Binding Path=HighLimit, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                     Value="{Binding Path=ProgressBarCurrentValue, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <!-- LIST VIEW WITH IMPORT/EXPORT EVENTS OF PROGRESS -->
+        <ListView Margin="20,100,20,70" x:Name="ProgressEventsList" ScrollViewer.CanContentScroll="True"
+                  SelectedItem="{Binding Path=SelectedProgressEvent}">
+
+            <!-- SETTERS -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Resources>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </ListView.Resources>
+            
+            <!-- DATA REPRESANTATION -->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Success" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Success, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Alarm tag name" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       Text="{Binding ObjectName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Alarm tag name" Width="520">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       Text="{Binding Message}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- CLOSE WINDOW BUTTON -->
+        <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Center" Margin="0,0,0,20" VerticalAlignment="Bottom"
+                Width="120" Height="30" IsEnabled="{Binding Path=ClosingButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+        
+    </Grid>
+</Window>
